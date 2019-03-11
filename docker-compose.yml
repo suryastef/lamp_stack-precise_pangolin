@@ -1,0 +1,35 @@
+version: '3'
+services:
+    php-apache:
+        build:
+            context: .
+        environment:
+            TZ: "Asia/Jakarta"
+        ports:
+            - 80:80
+        volumes:
+            - ./www:/var/www/
+        links:
+            - 'mysql'
+
+    mysql:
+        image: mysql:5.5.52 
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            TZ: "Asia/Jakarta"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "example_password"
+            MYSQL_USER: 'example_user'
+            MYSQL_PASSWORD: 'example_password'
+            MYSQL_DATABASE: 'example_db'
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+
+volumes:
+    mysql:
+
